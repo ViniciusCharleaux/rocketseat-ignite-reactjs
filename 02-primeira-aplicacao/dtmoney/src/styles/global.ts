@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
         --shape: #FFFFFF;
 
         --green: #33CC95;
+        
     }
 
     *{
