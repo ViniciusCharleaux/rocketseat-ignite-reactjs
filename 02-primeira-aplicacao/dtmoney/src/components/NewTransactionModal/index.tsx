@@ -1,13 +1,12 @@
 import Modal from 'react-modal';
 import { Container, TransactionTypeContainer, RadioBox } from './styles';
-import { FormEvent, useState, useContext } from 'react'; 
+import { FormEvent, useState } from 'react'; 
 
 import closeImg from '../../assets/fechar.svg';
 
 import incomeImg from '../../assets/entradas.svg'
 import outcomeImg from '../../assets/saidas.svg'
-import { api } from '../../services/api';
-import { TransactionsContext } from '../../TransactionsContext';
+import { useTransactions } from '../../hooks/useTransactions';
 
 
 interface NewTransactionModalProps{
@@ -17,7 +16,7 @@ interface NewTransactionModalProps{
 
 export function NewTransactionModal({isOpen, onRequestClose}:NewTransactionModalProps){
 
-    const { createTransaction } = useContext(TransactionsContext);
+    const { createTransaction } = useTransactions();
 
     const [title, setTitle] = useState('');
     const [amount, setAmount] = useState(0);
@@ -34,6 +33,11 @@ export function NewTransactionModal({isOpen, onRequestClose}:NewTransactionModal
             category,
             type,
         })
+
+        setTitle('');
+        setAmount(0);
+        setCategory('');
+        setType('deposit');
 
         onRequestClose();
     }
@@ -53,7 +57,7 @@ export function NewTransactionModal({isOpen, onRequestClose}:NewTransactionModal
                 <img src={closeImg} alt="Fechar modal" />
             </button>
 
-            <Container>
+            <Container onSubmit={handleCreateNewTransaction}>
                 <h2>Cadastrar transação</h2>
 
                 <input 
@@ -69,7 +73,7 @@ export function NewTransactionModal({isOpen, onRequestClose}:NewTransactionModal
                     onChange={event => setAmount(Number(event.target.value))}
                 />
 
-                 <TransactionTypeContainer onSubmit={handleCreateNewTransaction}>
+                 <TransactionTypeContainer>
                     <RadioBox
                         type="button"
                         isActive={type === 'deposit'}
