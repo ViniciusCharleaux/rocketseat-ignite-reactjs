@@ -20,7 +20,7 @@ export function Header(){
         letterSpacing="tight"
         w="64"
       >
-        dashGO
+        dashgo
         <Text as="span" color="pink.500" ml="1">.</Text>
       </Text>
 
